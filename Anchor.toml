@@ -1,13 +1,13 @@
 [features]
 seeds = false
-[programs.localnet]
-sol_blog_1 = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+[programs.devnet]
+sol_blog_1 = "HT1SvEi8Ku988kYZMe7MF85YtdmYWiZ6vS2A2ky8jDrH"
 
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "/Users/rehanchoudhury/.config/solana/id.json"
 
 [scripts]

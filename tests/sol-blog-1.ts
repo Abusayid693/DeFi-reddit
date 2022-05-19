@@ -1,16 +1,45 @@
 import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
-import { SolBlog1 } from "../target/types/sol_blog_1";
+import { SolBlog } from "../target/types/sol_blog";
 
-describe("sol-blog-1", () => {
-  // Configure the client to use the local cluster.
-  anchor.setProvider(anchor.AnchorProvider.env());
+const PROGRAM_ID = "HT1SvEi8Ku988kYZMe7MF85YtdmYWiZ6vS2A2ky8jDrH";
+const CLUSTER_URL = "https://api.devnet.solana.com";
 
-  const program = anchor.workspace.SolBlog1 as Program<SolBlog1>;
+describe("sol-blog", () => {
+  const provider = anchor.AnchorProvider.env();
+  const wallet = provider.wallet as anchor.Wallet;
+
+  anchor.setProvider(provider);
+
+  const idl = JSON.parse(
+    require("fs").readFileSync("./target/idl/sol_blog.json", "utf8")
+  );
+  const programId = new anchor.web3.PublicKey(PROGRAM_ID);
+  const program = new Program<SolBlog>(idl, programId);
+
+  const newAcc = anchor.web3.Keypair.generate();
+
 
   it("Is initialized!", async () => {
-    // Add your test here.
-    const tx = await program.methods.initialize().rpc();
-    console.log("Your transaction signature", tx);
+    const tx = await program.rpc.initialize(
+      "Hello i am Rehan this is 3nd post",
+      "This is title of the post",
+      ["test"],
+      'https://test-img.jpg',
+      {
+        accounts: {
+          blogAccount: newAcc.publicKey,
+          user: wallet.publicKey,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        },
+        signers: [newAcc],
+      }
+    );
+  });
+  it("It should fetch all posts!", async () => {
+    const posts = await program.account.blogAccount.all();
+    console.log(posts);
   });
 });
+
+
