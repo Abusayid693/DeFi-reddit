@@ -7,20 +7,16 @@ const Posts = () => {
   const wallet = useWallet()
   const connection = useConnection()
 
-  const { posts, loading, getPosts } =  usePosts(wallet, connection);
+  const { posts, loading, getPosts } = usePosts(wallet, connection)
 
-  useEffect(()=>{
+  useEffect(() => {
     getPosts()
-  },[])
+  }, [])
 
   return (
     <>
       <h1>This is DATA</h1>
-      {loading ? (
-        <h1>loading....</h1>
-      ) : (
-        <Post posts={posts}/>
-      )}
+      {loading ? <> loading....</> : <Post posts={posts} />}
     </>
   )
 }
