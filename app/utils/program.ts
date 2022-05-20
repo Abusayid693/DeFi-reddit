@@ -1,6 +1,7 @@
 import * as anchor from '@project-serum/anchor';
 import { Program } from "@project-serum/anchor";
 import { PublicKey } from '@solana/web3.js';
+import { SolBlog } from "../@types/sol_blog";
 import idl from "../idl/sol_blog.json";
 
 
@@ -9,7 +10,7 @@ export const programId = new PublicKey(
   )
   
 
-export const getProgramInstance = (connection:anchor.web3.Connection, wallet:anchor.Wallet)=>{
+export const getProgramInstance = (connection:anchor.web3.Connection, wallet:any)=>{
 
     if (!wallet.publicKey) alert('Can get program instance');
 
@@ -19,7 +20,7 @@ export const getProgramInstance = (connection:anchor.web3.Connection, wallet:anc
         anchor.AnchorProvider.defaultOptions(),
     )
 
-    const program = new Program<any>(idl, programId, provider);
+    const program = new Program<SolBlog>(idl as any, programId, provider);
 
     return program
 }
